@@ -195,7 +195,13 @@ class NewsLetterSender(object):
         if self.test:
             return True
 
-        if self.newsletter.sending_date <= datetime.now() and \
+        try:
+            from django.utils.timezone import utc
+            now = datetime.utcnow().replace(tzinfo=utc)
+        except:
+            now = datetime.now()
+
+        if self.newsletter.sending_date <= now and \
                (self.newsletter.status == Newsletter.WAITING or \
                 self.newsletter.status == Newsletter.SENDING):
             return True
