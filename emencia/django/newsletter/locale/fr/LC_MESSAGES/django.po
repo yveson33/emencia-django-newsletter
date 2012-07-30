@@ -102,10 +102,6 @@ msgstr "Email valide"
 msgid "contact tester"
 msgstr "Testeur"
 
-#: models.py:106
-msgid "tags"
-msgstr "Tags"
-
 #: models.py:112 models.py:165 models.py:227 models.py:260 models.py:324
 msgid "creation date"
 msgstr "Date de création"
@@ -565,8 +561,8 @@ msgid "Import contacts from a Excel file."
 msgstr "Importez vos contacts depuis un fichier Excel."
 
 #: templates/newsletter/contact_import.html:32
-msgid "Columns are [email][last name][first name][tags]."
-msgstr "Les colonnes sont [email][prénom][nom][tags]."
+msgid "Columns are [email][last name][first name]."
+msgstr "Les colonnes sont [email][prénom][nom]."
 
 #: templates/newsletter/contact_import.html:33
 #: templates/newsletter/contact_import.html:56
@@ -596,9 +592,9 @@ msgstr "Importez vos contacts depuis un fichier texte ou un fichier CSV."
 #: templates/newsletter/contact_import.html:55
 #: templates/newsletter/contact_import.html:97
 msgid ""
-"Columns are [email][last name][first name][tags], splitted by a dot coma."
+"Columns are [email][last name][first name], splitted by a dot coma."
 msgstr ""
-"Les colonnes sont [email][prénom][nom][tags], séparées par un point virgule."
+"Les colonnes sont [email][prénom][nom], séparées par un point virgule."
 
 #: templates/newsletter/contact_import.html:70
 msgid "VCard"
@@ -612,7 +608,7 @@ msgstr "Fichier VCard (.cvf)"
 msgid ""
 "Import contacts from your favorite mail client, by providing a VCard file."
 msgstr ""
-"Importez vos contacts depuis votre client mail favoris en fournissant un "
+"Importez vos contacts depuis votre client mail favori en fournissant un "
 "fichier VCard."
 
 #: templates/newsletter/contact_import.html:90
