@@ -8,8 +8,6 @@ from django.db import models
 from django.utils.encoding import smart_str
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.contenttypes import generic
-from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import Group
 from django.utils.encoding import force_unicode
 
@@ -112,17 +110,13 @@ class SMTPServer(models.Model):
 
 class Contact(models.Model):
     """Contact for emailing"""
-    email = models.EmailField(_('email'), unique=True)
+    email = models.EmailField(_('email'))
     first_name = models.CharField(_('first name'), max_length=50, blank=True)
     last_name = models.CharField(_('last name'), max_length=50, blank=True)
 
     subscriber = models.BooleanField(_('subscriber'), default=True)
     valid = models.BooleanField(_('valid email'), default=True)
     tester = models.BooleanField(_('contact tester'), default=False)
-
-    content_type = models.ForeignKey(ContentType, blank=True, null=True)
-    object_id = models.PositiveIntegerField(blank=True, null=True)
-    content_object = generic.GenericForeignKey('content_type', 'object_id')
 
     creation_date = models.DateTimeField(_('creation date'), auto_now_add=True)
     modification_date = models.DateTimeField(_('modification date'),
