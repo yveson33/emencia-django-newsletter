@@ -20,7 +20,8 @@ from emencia.django.newsletter.settings import USE_WORKGROUPS
 from emencia.django.newsletter.utils.importation import import_dispatcher
 from emencia.django.newsletter.utils.workgroups import request_workgroups, \
                                                 request_workgroups_contacts_pk
-from emencia.django.newsletter.utils.vcard import vcard_contacts_export_response
+from emencia.django.newsletter.utils.vcard import \
+        vcard_contacts_export_response
 from emencia.django.newsletter.utils.excel import ExcelResponse
 
 
@@ -151,7 +152,7 @@ class ContactAdmin(admin.ModelAdmin):
 
         context = {'title': _('Contact importation'),
                    'opts': opts,
-                   'root_path': self.admin_site.root_path,
+                   'root_path': reverse('admin:index'),
                    'app_label': opts.app_label}
 
         return render_to_response('newsletter/contact_import.html',
