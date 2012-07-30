@@ -544,10 +544,6 @@ msgstr "Exporter %(name)s dans Excel"
 msgid "Home"
 msgstr "Accueil"
 
-#: templates/newsletter/contact_import.html:10
-msgid "Import"
-msgstr "Import"
-
 #: templates/newsletter/contact_import.html:24
 msgid "Excel"
 msgstr "Excel"
@@ -574,6 +570,7 @@ msgstr "Toutes les colonnes sont optionnels à l'exception de l'email."
 #: templates/newsletter/contact_import.html:61
 #: templates/newsletter/contact_import.html:81
 #: templates/newsletter/contact_import.html:103
+#: templates/newsletter/contact_import.html:10
 msgid "Import"
 msgstr "Import"
 
