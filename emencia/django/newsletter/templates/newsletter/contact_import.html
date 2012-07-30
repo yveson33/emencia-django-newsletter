@@ -4,20 +4,23 @@
 {% block breadcrumbs %}
 {% if not is_popup %}
 <div class="breadcrumbs">
-     <a href="../../../">{% trans "Home" %}</a> &rsaquo;
-     <a href="../../">{{ app_label|capfirst|escape }}</a> &rsaquo;
-     <a href="../">{{ opts.verbose_name_plural|capfirst }}</a> &rsaquo;
-     {% trans 'Importation' %}
+  <a href="../../../">{% trans "Home" %}</a> &rsaquo;
+  <a href="../../">{{ app_label|capfirst|escape }}</a> &rsaquo;
+  <a href="../">{{ opts.verbose_name_plural|capfirst }}</a> &rsaquo;
+  {% trans 'Import' %}
 </div>
 {% endif %}
 {% endblock %}
 
-{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />{% endblock %}
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}admin/css/forms.css" />
+{% endblock %}
 
 {% block content %}
 <div id="content-main">
 
-  <form action="." method="post" enctype="multipart/form-data">
+  <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div>
       <fieldset class="module aligned">
@@ -40,7 +43,7 @@
     </div>
   </form>
 
-  <form action="." method="post" enctype="multipart/form-data">
+  <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div>
       <fieldset class="module aligned">
@@ -63,7 +66,7 @@
     </div>
   </form>
 
-  <form action="." method="post" enctype="multipart/form-data">
+  <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div>
       <fieldset class="module aligned">
@@ -83,7 +86,7 @@
     </div>
   </form>
 
-  <form action="." method="post">
+  <form action="" method="post">
     {% csrf_token %}
     <div>
       <fieldset class="module aligned">

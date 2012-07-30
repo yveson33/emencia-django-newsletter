@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Julien Fache <fantomas42@gmail.com>, 2011.
 msgid ""
@@ -358,8 +358,8 @@ msgid "%s contacts succesfully imported."
 msgstr "%s contacts importés avec succès."
 
 #: admin/contact.py:128
-msgid "Contact importation"
-msgstr "Importation de contacts"
+msgid "Contact import"
+msgstr "Import de contacts"
 
 #: admin/mailinglist.py:65
 msgid "Please select a least 2 mailing list."
@@ -549,8 +549,8 @@ msgid "Home"
 msgstr "Accueil"
 
 #: templates/newsletter/contact_import.html:10
-msgid "Importation"
-msgstr "Importation"
+msgid "Import"
+msgstr "Import"
 
 #: templates/newsletter/contact_import.html:24
 msgid "Excel"
@@ -579,7 +579,7 @@ msgstr "Toutes les colonnes sont optionnels à l'exception de l'email."
 #: templates/newsletter/contact_import.html:81
 #: templates/newsletter/contact_import.html:103
 msgid "Import"
-msgstr "Importation"
+msgstr "Import"
 
 #: templates/newsletter/contact_import.html:47
 msgid "Text"
@@ -789,8 +789,8 @@ msgstr "Vous êtes inscrit avec succès à cette liste de diffusion."
 
 #: utils/importation.py:52
 #, python-format
-msgid "Mailing list created by importation at %s"
-msgstr "Liste de diffusion créée par importation le %s"
+msgid "Mailing list imported at %s"
+msgstr "Liste de diffusion importée le %s"
 
 #: utils/importation.py:53
 #, python-format
