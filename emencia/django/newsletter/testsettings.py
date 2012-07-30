@@ -12,5 +12,4 @@ DATABASES = {'default': {'NAME': 'newsletter_tests.db',
 INSTALLED_APPS = ['django.contrib.contenttypes',
                   'django.contrib.sites',
                   'django.contrib.auth',
-                  'tagging',
                   'emencia.django.newsletter']
