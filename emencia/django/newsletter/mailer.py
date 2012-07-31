@@ -198,6 +198,7 @@ class NewsLetterSender(object):
         try:
             from django.utils.timezone import utc
             now = datetime.utcnow().replace(tzinfo=utc)
+            now = datetime.now()
         except:
             now = datetime.now()
 
