@@ -42,7 +42,7 @@ def create_contacts(contact_dicts, importer_name, workgroups=[]):
     inserted = 0
     when = str(datetime.now()).split('.')[0]
     mailing_list = MailingList(
-        name=_('Mailing list created by importation at %s') % when,
+        name=_('Mailing list imported at %s') % when,
         description=_('Contacts imported by %s.') % importer_name)
     mailing_list.save()
 
