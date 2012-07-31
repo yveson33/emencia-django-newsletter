@@ -110,7 +110,8 @@ class SMTPServer(models.Model):
 
 class Contact(models.Model):
     """Contact for emailing"""
-    email = models.EmailField(_('email'), unique=True)
+    email = models.EmailField(_('email'))
+    owner = models.IntegerField(_('owner'), default=0)
     first_name = models.CharField(_('first name'), max_length=50, blank=True)
     last_name = models.CharField(_('last name'), max_length=50, blank=True)
 
@@ -154,6 +155,7 @@ class Contact(models.Model):
         return contact_name
 
     class Meta:
+        unique_together = ('email', 'owner')
         ordering = ('creation_date',)
         verbose_name = _('contact')
         verbose_name_plural = _('contacts')
