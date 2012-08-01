@@ -17,6 +17,7 @@ from emencia.django.newsletter.settings import MAILER_HARD_LIMIT
 from emencia.django.newsletter.settings import DEFAULT_HEADER_REPLY
 from emencia.django.newsletter.settings import DEFAULT_HEADER_SENDER
 from emencia.django.newsletter.utils.vcard import vcard_contact_export
+from emencia.django.newsletter.utils.premailer import Premailer
 
 # Patch for Python < 2.6
 try:
@@ -272,6 +273,12 @@ class Newsletter(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if self.content.startswith('http://'):
+            premailer = Premailer(self.content.strip())
+            self.content = premailer.transform()
+        super(Newsletter, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ('-creation_date',)

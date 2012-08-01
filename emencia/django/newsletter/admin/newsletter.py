@@ -13,12 +13,7 @@ from emencia.django.newsletter.models import MailingList
 from emencia.django.newsletter.mailer import Mailer
 from emencia.django.newsletter.settings import USE_TINYMCE
 from emencia.django.newsletter.settings import USE_WORKGROUPS
-try:
-    CAN_USE_PREMAILER = True
-    from emencia.django.newsletter.utils.premailer import Premailer
-    from emencia.django.newsletter.utils.premailer import PremailerError
-except ImportError:
-    CAN_USE_PREMAILER = False
+from emencia.django.newsletter.utils.premailer import PremailerError
 from emencia.django.newsletter.utils.workgroups import request_workgroups
 from emencia.django.newsletter.utils.workgroups import request_workgroups_contacts_pk
 from emencia.django.newsletter.utils.workgroups import request_workgroups_newsletters_pk
@@ -99,19 +94,13 @@ class BaseNewsletterAdmin(admin.ModelAdmin):
                and USE_WORKGROUPS:
             workgroups = request_workgroups(request)
 
-        if newsletter.content.startswith('http://'):
-            if CAN_USE_PREMAILER:
-                try:
-                    premailer = Premailer(newsletter.content.strip())
-                    newsletter.content = premailer.transform()
-                except PremailerError:
-                    self.message_user(request, _('Unable to download HTML, due to errors within.'))
-            else:
-                self.message_user(request, _('Please install lxml for parsing an URL.'))
         if not request.user.has_perm('newsletter.can_change_status'):
             newsletter.status = form.initial.get('status', Newsletter.DRAFT)
 
-        newsletter.save()
+        try:
+            newsletter.save()
+        except PremailerError:
+            self.message_user(request, _('Unable to download HTML, due to errors within.'))
 
         for workgroup in workgroups:
             workgroup.newsletters.add(newsletter)
