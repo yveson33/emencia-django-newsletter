@@ -119,6 +119,9 @@ class Premailer(object):
                         rules.extend(self._parse_style_rules(css)[0])
                         break
 
+        # Remove rules starting with '@' such as font-face and '}' (broken
+        # media query parsing from lxml)
+        rules = [rule for rule in rules if not rule[0].startswith(('@', '}'))]
         return rules
 
     def inline_rules(self, rules):
