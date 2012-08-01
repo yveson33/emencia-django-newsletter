@@ -61,17 +61,16 @@ def _merge_styles(old, new, class_=''):
                           for (k, v) in groups.values()[0].items()])
     else:
         all = []
-        for class_, mergeable in sorted(groups.items(),
-                                        lambda x, y: cmp(x[0].count(':'), y[0].count(':'))):
-            all.append('%s{%s}' % (class_,
-                                   '; '.join(['%s:%s' % (k, v)
+        for class_, mergeable in sorted(
+            groups.items(),
+            lambda x, y: cmp(x[0].count(':'), y[0].count(':'))
+        ):
+            all.append(
+                '%s{%s}' % (class_, '; '.join(['%s:%s' % (k, v)
                                               for (k, v)
-                                              in mergeable.items()])))
+                                              in mergeable.items()]))
+            )
         return ' '.join([x for x in all if x != '{}'])
-
-
-class PremailerError(Exception):
-    pass
 
 
 class Premailer(object):
@@ -80,10 +79,7 @@ class Premailer(object):
 
     def __init__(self, url, include_star_selectors=False):
         self.url = url
-        try:
-            self.page = parse(self.url).getroot()
-        except:
-            raise PremailerError('Could not parse the html')
+        self.page = parse(self.url).getroot()
 
         self.include_star_selectors = include_star_selectors
 
