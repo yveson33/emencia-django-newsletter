@@ -17,7 +17,7 @@ COLUMNS = ['email', 'first_name', 'last_name']
 csv.register_dialect('edn', delimiter=';')
 
 
-def create_contact(contact_dict, workgroups=[]):
+def create_contact(contact_dict):
     """Create a contact and validate the mail"""
     contact_dict['email'] = contact_dict['email'].strip()
     try:
@@ -30,34 +30,33 @@ def create_contact(contact_dict, workgroups=[]):
         email=contact_dict['email'],
         defaults=contact_dict)
 
-    for workgroup in workgroups:
-        workgroup.contacts.add(contact)
-
     return contact, created
 
 
-def create_contacts(contact_dicts, importer_name, workgroups=[]):
+def create_contacts(contact_dicts, importer_name,
+                    mailing_list=None, segment=None):
     """Create all the contacts to import and
     associated them in a mailing list"""
     inserted = 0
     when = str(datetime.now()).split('.')[0]
-    mailing_list = MailingList(
-        name=_('Mailing list imported at %s') % when,
-        description=_('Contacts imported by %s.') % importer_name)
-    mailing_list.save()
 
-    for workgroup in workgroups:
-        workgroup.mailinglists.add(mailing_list)
+    if not mailing_list:
+        mailing_list = MailingList(
+            name=_('Mailing list imported at %s') % when,
+            description=_('Contacts imported by %s.') % importer_name)
+        mailing_list.save()
 
     for contact_dict in contact_dicts:
-        contact, created = create_contact(contact_dict, workgroups)
+        contact, created = create_contact(contact_dict)
         mailing_list.subscribers.add(contact)
+        if segment:
+            segment.subscribers.add(contact)
         inserted += int(created)
 
     return inserted
 
 
-def vcard_contacts_import(stream, workgroups=[]):
+def vcard_contacts_import(stream, mailing_list=None, segment=None):
     """Import contacts from a VCard file"""
     contacts = []
     vcards = vobject.readComponents(stream)
@@ -68,10 +67,10 @@ def vcard_contacts_import(stream, workgroups=[]):
                    'last_name': vcard.n.value.family}
         contacts.append(contact)
 
-    return create_contacts(contacts, 'vcard', workgroups)
+    return create_contacts(contacts, 'vcard', mailing_list, segment)
 
 
-def text_contacts_import(stream, workgroups=[]):
+def text_contacts_import(stream, mailing_list=None, segment=None):
     """Import contact from a plaintext file, like CSV"""
     contacts = []
     contact_reader = csv.reader(stream, dialect='edn')
@@ -82,10 +81,10 @@ def text_contacts_import(stream, workgroups=[]):
             contact[COLUMNS[i]] = contact_row[i]
         contacts.append(contact)
 
-    return create_contacts(contacts, 'text', workgroups)
+    return create_contacts(contacts, 'text', mailing_list, segment)
 
 
-def excel_contacts_import(stream, workgroups=[]):
+def excel_contacts_import(stream, mailing_list=None, segment=None):
     """Import contacts from an Excel file"""
     contacts = []
     wb = xlrd.open_workbook(file_contents=stream.read())
@@ -101,15 +100,15 @@ def excel_contacts_import(stream, workgroups=[]):
                 break
         contacts.append(contact)
 
-    return create_contacts(contacts, 'excel', workgroups)
+    return create_contacts(contacts, 'excel', mailing_list, segment)
 
 
-def import_dispatcher(source, type_, workgroups):
+def import_dispatcher(source, type_, mailing_list, segment):
     """Select importer and import contacts"""
     if type_ == 'vcard':
-        return vcard_contacts_import(source, workgroups)
+        return vcard_contacts_import(source, mailing_list, segment)
     elif type_ == 'text':
-        return text_contacts_import(source, workgroups)
+        return text_contacts_import(source, mailing_list, segment)
     elif type_ == 'excel':
-        return excel_contacts_import(source, workgroups)
+        return excel_contacts_import(source, mailing_list, segment)
     return 0
