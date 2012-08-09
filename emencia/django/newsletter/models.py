@@ -203,6 +203,24 @@ class MailingList(models.Model):
         verbose_name_plural = _('mailing lists')
 
 
+class MailingListSegment(models.Model):
+    name = models.CharField(_('name'), max_length=255)
+    mailing_list = models.ForeignKey(MailingList, null=False,
+                                     related_name="segments")
+    position = models.IntegerField(default=1)
+    subscribers = models.ManyToManyField(Contact,
+                                         verbose_name=_('subscribers'))
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        ordering = ('position', )
+
+    def subscribers_count(self):
+        return self.subscribers.all().count()
+
+
 class Newsletter(models.Model):
     """Newsletter to be sended to contacts"""
     DRAFT = 0
