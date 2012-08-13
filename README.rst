@@ -147,17 +147,15 @@ variables into a SQL query, you can not create a Mailing List greater than this 
 in the Django's admin modules. Prefer MySQL ou PgSQL.
 
 
-HOWTO use TinyMCE for editing the newsletters
+HOWTO use WYSIWYG for editing the newsletters
 =============================================
 
 It can be usefull for the end user to have a WYSIWYG editor for the
 creation of the newsletter. The choice of the WYSIWYG editor is free and
 the described method can be applied for anything, but we will focus on
-TinyMCE because he has many features and a usefull plugin for loading
-templates within it.
+TinyMCE and CkEditor.
 
-First of all install the `django-tinymce
-<http://code.google.com/p/django-tinymce/>`_ application into your project.
+Either install the `django-tinymce <http://code.google.com/p/django-tinymce/>`_ application or the `django-ckeditor <https://github.com/shaunsephton/django-ckeditor/>`_ application into your project.
 
 That's done, enjoy !
 

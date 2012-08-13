@@ -11,7 +11,7 @@ from emencia.django.newsletter.models import Newsletter
 from emencia.django.newsletter.models import Attachment
 from emencia.django.newsletter.models import MailingList
 from emencia.django.newsletter.mailer import Mailer
-from emencia.django.newsletter.settings import USE_TINYMCE
+from emencia.django.newsletter.settings import USE_TINYMCE, USE_CKEDITOR
 from emencia.django.newsletter.settings import USE_WORKGROUPS
 from emencia.django.newsletter.utils.workgroups import request_workgroups,\
         request_workgroups_contacts_pk, request_workgroups_newsletters_pk,\
@@ -189,6 +189,20 @@ if USE_TINYMCE:
 
     class NewsletterAdmin(BaseNewsletterAdmin):
         form = NewsletterTinyMCEForm
+        
+elif USE_CKEDITOR:
+    from ckeditor.widgets import CKEditorWidget
+    
+    class NewsletterCKEditorForm(forms.ModelForm):
+        content = forms.CharField(
+            widget=CKEditorWidget())
+
+        class Meta:
+            model = Newsletter
+
+    class NewsletterAdmin(BaseNewsletterAdmin):
+        form = NewsletterCKEditorForm
+    
 else:
     class NewsletterAdmin(BaseNewsletterAdmin):
         pass
