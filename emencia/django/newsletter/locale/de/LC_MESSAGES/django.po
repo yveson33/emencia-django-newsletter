@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Marc Dierckx <marc.dierckx@eduthek.info>, 2011.
 msgid ""
@@ -534,7 +534,7 @@ msgstr "Neue Verteilerliste"
 #: templates/admin/newsletter/contact/change_list.html:65
 #, python-format
 msgid "Export %(name)s as VCard"
-msgstr "Exportier Kontakte im VCard Format"
+msgstr "Exportier %(name)s im VCard Format"
 
 #: templates/admin/newsletter/contact/change_list.html:70
 #, python-format
@@ -790,7 +790,7 @@ msgstr "Verteilerliste wurde angelegt durch Zusammenfügen bei %s"
 #: utils/importation.py:53
 #, python-format
 msgid "Contacts imported by %s."
-msgstr "Import"
+msgstr "Import %s"
 
 #: views/statistics.py:54
 #, python-format

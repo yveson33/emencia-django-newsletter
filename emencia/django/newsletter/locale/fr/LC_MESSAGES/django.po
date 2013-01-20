@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Julien Fache <fantomas42@gmail.com>, 2011.
 msgid ""
@@ -101,10 +101,6 @@ msgstr "Email valide"
 #: models.py:105
 msgid "contact tester"
 msgstr "Testeur"
-
-#: models.py:106
-msgid "tags"
-msgstr "Tags"
 
 #: models.py:112 models.py:165 models.py:227 models.py:260 models.py:324
 msgid "creation date"
@@ -358,8 +354,8 @@ msgid "%s contacts succesfully imported."
 msgstr "%s contacts importés avec succès."
 
 #: admin/contact.py:128
-msgid "Contact importation"
-msgstr "Importation de contacts"
+msgid "Contact import"
+msgstr "Import de contacts"
 
 #: admin/mailinglist.py:65
 msgid "Please select a least 2 mailing list."
@@ -548,10 +544,6 @@ msgstr "Exporter %(name)s dans Excel"
 msgid "Home"
 msgstr "Accueil"
 
-#: templates/newsletter/contact_import.html:10
-msgid "Importation"
-msgstr "Importation"
-
 #: templates/newsletter/contact_import.html:24
 msgid "Excel"
 msgstr "Excel"
@@ -565,8 +557,8 @@ msgid "Import contacts from a Excel file."
 msgstr "Importez vos contacts depuis un fichier Excel."
 
 #: templates/newsletter/contact_import.html:32
-msgid "Columns are [email][last name][first name][tags]."
-msgstr "Les colonnes sont [email][prénom][nom][tags]."
+msgid "Columns are [email][last name][first name]."
+msgstr "Les colonnes sont [email][prénom][nom]."
 
 #: templates/newsletter/contact_import.html:33
 #: templates/newsletter/contact_import.html:56
@@ -578,8 +570,9 @@ msgstr "Toutes les colonnes sont optionnels à l'exception de l'email."
 #: templates/newsletter/contact_import.html:61
 #: templates/newsletter/contact_import.html:81
 #: templates/newsletter/contact_import.html:103
+#: templates/newsletter/contact_import.html:10
 msgid "Import"
-msgstr "Importation"
+msgstr "Import"
 
 #: templates/newsletter/contact_import.html:47
 msgid "Text"
@@ -596,9 +589,9 @@ msgstr "Importez vos contacts depuis un fichier texte ou un fichier CSV."
 #: templates/newsletter/contact_import.html:55
 #: templates/newsletter/contact_import.html:97
 msgid ""
-"Columns are [email][last name][first name][tags], splitted by a dot coma."
+"Columns are [email][last name][first name], splitted by a dot coma."
 msgstr ""
-"Les colonnes sont [email][prénom][nom][tags], séparées par un point virgule."
+"Les colonnes sont [email][prénom][nom], séparées par un point virgule."
 
 #: templates/newsletter/contact_import.html:70
 msgid "VCard"
@@ -612,7 +605,7 @@ msgstr "Fichier VCard (.cvf)"
 msgid ""
 "Import contacts from your favorite mail client, by providing a VCard file."
 msgstr ""
-"Importez vos contacts depuis votre client mail favoris en fournissant un "
+"Importez vos contacts depuis votre client mail favori en fournissant un "
 "fichier VCard."
 
 #: templates/newsletter/contact_import.html:90
@@ -789,8 +782,8 @@ msgstr "Vous êtes inscrit avec succès à cette liste de diffusion."
 
 #: utils/importation.py:52
 #, python-format
-msgid "Mailing list created by importation at %s"
-msgstr "Liste de diffusion créée par importation le %s"
+msgid "Mailing list imported at %s"
+msgstr "Liste de diffusion importée le %s"
 
 #: utils/importation.py:53
 #, python-format

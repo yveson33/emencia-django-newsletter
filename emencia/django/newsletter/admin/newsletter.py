@@ -11,18 +11,11 @@ from emencia.django.newsletter.models import Newsletter
 from emencia.django.newsletter.models import Attachment
 from emencia.django.newsletter.models import MailingList
 from emencia.django.newsletter.mailer import Mailer
-from emencia.django.newsletter.settings import USE_TINYMCE
+from emencia.django.newsletter.settings import USE_TINYMCE, USE_CKEDITOR
 from emencia.django.newsletter.settings import USE_WORKGROUPS
-try:
-    CAN_USE_PREMAILER = True
-    from emencia.django.newsletter.utils.premailer import Premailer
-    from emencia.django.newsletter.utils.premailer import PremailerError
-except ImportError:
-    CAN_USE_PREMAILER = False
-from emencia.django.newsletter.utils.workgroups import request_workgroups
-from emencia.django.newsletter.utils.workgroups import request_workgroups_contacts_pk
-from emencia.django.newsletter.utils.workgroups import request_workgroups_newsletters_pk
-from emencia.django.newsletter.utils.workgroups import request_workgroups_mailinglists_pk
+from emencia.django.newsletter.utils.workgroups import request_workgroups,\
+        request_workgroups_contacts_pk, request_workgroups_newsletters_pk,\
+        request_workgroups_mailinglists_pk
 
 
 class AttachmentAdminInline(admin.TabularInline):
@@ -36,11 +29,13 @@ class BaseNewsletterAdmin(admin.ModelAdmin):
     list_display = ('title', 'mailing_list', 'server', 'status',
                     'sending_date', 'creation_date', 'modification_date',
                     'historic_link', 'statistics_link')
-    list_filter = ('status', 'sending_date', 'creation_date', 'modification_date')
+    list_filter = ('status', 'sending_date',
+                   'creation_date', 'modification_date')
     search_fields = ('title', 'content', 'header_sender', 'header_reply')
     filter_horizontal = ['test_contacts']
     fieldsets = ((None, {'fields': ('title', 'content',)}),
-                 (_('Receivers'), {'fields': ('mailing_list', 'test_contacts',)}),
+                 (_('Receivers'),
+                  {'fields': ('mailing_list', 'test_contacts',)}),
                  (_('Sending'), {'fields': ('sending_date', 'status',)}),
                  (_('Miscellaneous'), {'fields': ('server', 'header_sender',
                                                   'header_reply', 'slug'),
@@ -70,7 +65,9 @@ class BaseNewsletterAdmin(admin.ModelAdmin):
         if db_field.name == 'mailing_list' and \
                not request.user.is_superuser and USE_WORKGROUPS:
             mailinglists_pk = request_workgroups_mailinglists_pk(request)
-            kwargs['queryset'] = MailingList.objects.filter(pk__in=mailinglists_pk)
+            kwargs['queryset'] = MailingList.objects.filter(
+                pk__in=mailinglists_pk
+            )
             return db_field.formfield(**kwargs)
         return super(BaseNewsletterAdmin, self).formfield_for_foreignkey(
             db_field, request, **kwargs)
@@ -99,19 +96,16 @@ class BaseNewsletterAdmin(admin.ModelAdmin):
                and USE_WORKGROUPS:
             workgroups = request_workgroups(request)
 
-        if newsletter.content.startswith('http://'):
-            if CAN_USE_PREMAILER:
-                try:
-                    premailer = Premailer(newsletter.content.strip())
-                    newsletter.content = premailer.transform()
-                except PremailerError:
-                    self.message_user(request, _('Unable to download HTML, due to errors within.'))
-            else:
-                self.message_user(request, _('Please install lxml for parsing an URL.'))
         if not request.user.has_perm('newsletter.can_change_status'):
             newsletter.status = form.initial.get('status', Newsletter.DRAFT)
 
-        newsletter.save()
+        try:
+            newsletter.save()
+        except:
+            self.message_user(
+                request,
+                _('Unable to download HTML, due to errors within.')
+            )
 
         for workgroup in workgroups:
             workgroup.newsletters.add(newsletter)
@@ -119,7 +113,8 @@ class BaseNewsletterAdmin(admin.ModelAdmin):
     def historic_link(self, newsletter):
         """Display link for historic"""
         if newsletter.contactmailingstatus_set.count():
-            return u'<a href="%s">%s</a>' % (newsletter.get_historic_url(), _('View historic'))
+            return u'<a href="%s">%s</a>' % (newsletter.get_historic_url(),
+                                             _('View historic'))
         return _('Not available')
     historic_link.allow_tags = True
     historic_link.short_description = _('Historic')
@@ -128,7 +123,8 @@ class BaseNewsletterAdmin(admin.ModelAdmin):
         """Display link for statistics"""
         if newsletter.status == Newsletter.SENDING or \
            newsletter.status == Newsletter.SENT:
-            return u'<a href="%s">%s</a>' % (newsletter.get_statistics_url(), _('View statistics'))
+            return u'<a href="%s">%s</a>' % (newsletter.get_statistics_url(),
+                                             _('View statistics'))
         return _('Not available')
     statistics_link.allow_tags = True
     statistics_link.short_description = _('Statistics')
@@ -141,11 +137,18 @@ class BaseNewsletterAdmin(admin.ModelAdmin):
                 try:
                     mailer.run()
                 except HTMLParseError:
-                    self.message_user(request, _('Unable send newsletter, due to errors within HTML.'))
+                    self.message_user(
+                        request,
+                        _('Unable send newsletter, due to errors within HTML.')
+                    )
                     continue
-                self.message_user(request, _('%s succesfully sent.') % newsletter)
+                self.message_user(request,
+                                  _('%s succesfully sent.') % newsletter)
             else:
-                self.message_user(request, _('No test contacts assigned for %s.') % newsletter)
+                self.message_user(
+                    request,
+                    _('No test contacts assigned for %s.') % newsletter
+                )
     send_mail_test.short_description = _('Send test email')
 
     def make_ready_to_send(self, request, queryset):
@@ -154,7 +157,10 @@ class BaseNewsletterAdmin(admin.ModelAdmin):
         for newsletter in queryset:
             newsletter.status = Newsletter.WAITING
             newsletter.save()
-        self.message_user(request, _('%s newletters are ready to send') % queryset.count())
+        self.message_user(
+            request,
+            _('%s newletters are ready to send') % queryset.count()
+        )
     make_ready_to_send.short_description = _('Make ready to send')
 
     def make_cancel_sending(self, request, queryset):
@@ -164,7 +170,10 @@ class BaseNewsletterAdmin(admin.ModelAdmin):
         for newsletter in queryset:
             newsletter.status = Newsletter.CANCELED
             newsletter.save()
-        self.message_user(request, _('%s newletters are cancelled') % queryset.count())
+        self.message_user(
+            request,
+            _('%s newletters are cancelled') % queryset.count()
+        )
     make_cancel_sending.short_description = _('Cancel the sending')
 
 
@@ -180,6 +189,20 @@ if USE_TINYMCE:
 
     class NewsletterAdmin(BaseNewsletterAdmin):
         form = NewsletterTinyMCEForm
+        
+elif USE_CKEDITOR:
+    from ckeditor.widgets import CKEditorWidget
+    
+    class NewsletterCKEditorForm(forms.ModelForm):
+        content = forms.CharField(
+            widget=CKEditorWidget())
+
+        class Meta:
+            model = Newsletter
+
+    class NewsletterAdmin(BaseNewsletterAdmin):
+        form = NewsletterCKEditorForm
+    
 else:
     class NewsletterAdmin(BaseNewsletterAdmin):
         pass

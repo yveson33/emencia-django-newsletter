@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Marc Dierckx <marc.dierckx@eduthek.info>, 2011.
 msgid ""
@@ -530,7 +530,7 @@ msgstr "Maak een mailing list"
 #: templates/admin/newsletter/contact/change_list.html:65
 #, python-format
 msgid "Export %(name)s as VCard"
-msgstr "Contactpersonen exporteren als vCard"
+msgstr "Contactpersonen %(name)s exporteren als vCard"
 
 #: templates/admin/newsletter/contact/change_list.html:70
 #, python-format
@@ -787,7 +787,7 @@ msgstr "Mailing lijst gemaakt door het samenvoegen van  %s"
 #: utils/importation.py:53
 #, python-format
 msgid "Contacts imported by %s."
-msgstr "Import"
+msgstr "Import %s"
 
 #: views/statistics.py:54
 #, python-format
